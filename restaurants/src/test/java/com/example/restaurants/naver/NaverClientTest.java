@@ -36,9 +36,9 @@ public class NaverClientTest {
     public void allTest(){
 
         var search1 = new SearchLocalReq();
-        search1.setQuery("롯데월드");
+        search1.setQuery("섹스");
         var search2 = new SearchImageReq();
-        search2.setQuery("롯데월드");
+        search2.setQuery("섹스");
 
         var result = naverClient.searchLocal(search1);
         var result2 = naverClient.searchImage(search2);
