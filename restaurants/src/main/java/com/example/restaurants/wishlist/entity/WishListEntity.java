@@ -1,16 +1,25 @@
 package com.example.restaurants.wishlist.entity;
 
 import com.example.restaurants.db.MemoryDbEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class WishListEntity extends MemoryDbEntity {
+@Entity
+@Getter
+@Setter
+@Builder
+public class WishListEntity{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     private String title;  //음식점
     private String category; // 카테고리
