@@ -13,7 +13,7 @@
         }
     });
 
-    // 맛집 목록 vue object
+    // 지역 목록 vue object
     var wish_list = new Vue({
         el: '#wish-list',
         data: {
