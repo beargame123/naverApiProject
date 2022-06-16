@@ -6,3 +6,12 @@ naver:
   client:
     id: a5MiVJAna6kWdDKOd1eQ
     secret: mjKN2wSgcL
+spring:
+  datasource:
+    url: jdbc:h2:mem:naver
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
