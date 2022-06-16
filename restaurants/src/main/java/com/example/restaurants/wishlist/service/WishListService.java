@@ -60,23 +60,24 @@ public class WishListService {
 
 
     private WishListEntity dtoToEntity(WishListDto wishListDto){
-        var entity = new WishListEntity();
-        entity.setIndex(wishListDto.getIndex());
-        entity.setTitle(wishListDto.getTitle());
-        entity.setCategory(wishListDto.getCategory());
-        entity.setAddress(wishListDto.getAddress());
-        entity.setRoadAddress(wishListDto.getRoadAddress());
-        entity.setHomePageLink(wishListDto.getHomePageLink());
-        entity.setImageLink(wishListDto.getImageLink());
-        entity.setVisit(wishListDto.isVisit());
-        entity.setVisitCount(wishListDto.getVisitCount());
-        entity.setLastVisitDate(wishListDto.getLastVisitDate());
+        var entity = WishListEntity.builder()
+                .id(wishListDto.getIndex())
+                .title(wishListDto.getTitle())
+                .category(wishListDto.getCategory())
+                .address(wishListDto.getAddress())
+                .roadAddress(wishListDto.getRoadAddress())
+                .homePageLink(wishListDto.getHomePageLink())
+                .imageLink(wishListDto.getImageLink())
+                .isVisit(wishListDto.isVisit())
+                .visitCount(wishListDto.getVisitCount())
+                .lastVisitDate(wishListDto.getLastVisitDate())
+                .build();
         return entity;
     }
 
     private WishListDto entityToDto(WishListEntity wishListEntity){
         var dto = new WishListDto();
-        dto.setIndex(wishListEntity.getIndex());
+        dto.setIndex(wishListEntity.getId());
         dto.setTitle(wishListEntity.getTitle());
         dto.setCategory(wishListEntity.getCategory());
         dto.setAddress(wishListEntity.getAddress());
@@ -92,16 +93,16 @@ public class WishListService {
     public List<WishListDto> findAll() {
         return wishListRepository.findAll()
                 .stream()
-                .map(it -> entityToDto(it))
+                .map(this::entityToDto)
                 .collect(Collectors.toList());
     }
 
-    public void delete(int index) {
-        wishListRepository.deleteById(index);
+    public void delete(int id) {
+        wishListRepository.deleteById(id);
     }
 
-    public void addVisit(int index){
-        var wishItem = wishListRepository.findById(index);
+    public void addVisit(int id){
+        var wishItem = wishListRepository.findById(id);
         if(wishItem.isPresent()){
             var item = wishItem.get();
             item.setVisit(true);
