@@ -1,6 +1,5 @@
 package com.example.restaurants.wishlist.entity;
 
-import com.example.restaurants.db.MemoryDbEntity;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -17,11 +16,16 @@ import java.time.LocalDateTime;
 @Builder
 public class WishListEntity{
 
+    public void set(boolean isVisit, int visitCount){
+        this.isVisit = isVisit;
+        this.visitCount = visitCount;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String title;  //음식점
+    private String title;  // 장소이름
     private String category; // 카테고리
     private String address; // 주소
     private String roadAddress; // 도로명
