@@ -33,7 +33,7 @@ public class WishListRepositoryTest {
         var expected = wishListRepository.save(wishListEntity);
 
         Assertions.assertNotNull(expected);
-        Assertions.assertEquals(1, expected.getIndex());
+        Assertions.assertEquals(1, expected.getId());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class WishListRepositoryTest {
         var expected = wishListRepository.findById(1);
 
         Assertions.assertEquals(true, expected.isPresent());
-        Assertions.assertEquals(1, expected.get().getIndex());
+        Assertions.assertEquals(1, expected.get().getId());
 
     }
 
