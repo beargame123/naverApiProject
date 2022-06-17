@@ -1,6 +1,7 @@
 package com.example.restaurants.controller;
 
 import com.example.restaurants.wishlist.dto.WishListDto;
+import com.example.restaurants.wishlist.entity.WishListEntity;
 import com.example.restaurants.wishlist.service.WishListService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,26 +23,24 @@ public class ApiController{
     }
 
     @PostMapping("")
-    public WishListDto add(@RequestBody WishListDto wishListDto){
-        log.info("{}", wishListDto);
-
-        return wishListService.add(wishListDto);
+    public void add(@RequestBody WishListDto wishListDto){
+        wishListService.add(wishListDto);
     }
 
     @GetMapping("/all")
-    public List<WishListDto> findAll(){
+    public List<WishListEntity> findAll(){
 
         return wishListService.findAll();
     }
 
-    @DeleteMapping("/{index}")
-    public void delete(@PathVariable int index){
-        wishListService.delete(index);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id){
+        wishListService.delete(id);
     }
 
-    @PostMapping("/{index}")
-    public void addVisit(@PathVariable int index){
-        wishListService.addVisit(index);
+    @PostMapping("/{id}")
+    public void addVisit(@PathVariable Integer id){
+        wishListService.addVisit(id);
     }
 
 
