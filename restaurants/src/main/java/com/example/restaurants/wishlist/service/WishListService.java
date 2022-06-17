@@ -7,11 +7,12 @@ import com.example.restaurants.wishlist.dto.WishListDto;
 import com.example.restaurants.wishlist.entity.WishListEntity;
 import com.example.restaurants.wishlist.repository.WishListRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class WishListService {
@@ -52,16 +53,14 @@ public class WishListService {
         return new WishListDto();
     }
 
-    public WishListDto add(WishListDto wishListDto) {
-        var entity = dtoToEntity(wishListDto);
-        var saveEntity = wishListRepository.save(entity);
-        return entityToDto(saveEntity);
-    }
-
-
-    private WishListEntity dtoToEntity(WishListDto wishListDto){
-        var entity = WishListEntity.builder()
-                .id(wishListDto.getIndex())
+    public void add(WishListDto wishListDto) {
+        if(wishListDto.getId() == null){
+            Integer i =0;
+            i++;
+            wishListDto.setId(i);
+        }
+        WishListEntity wishListEntity = WishListEntity.builder()
+                .id(wishListDto.getId())
                 .title(wishListDto.getTitle())
                 .category(wishListDto.getCategory())
                 .address(wishListDto.getAddress())
@@ -72,41 +71,20 @@ public class WishListService {
                 .visitCount(wishListDto.getVisitCount())
                 .lastVisitDate(wishListDto.getLastVisitDate())
                 .build();
-        return entity;
+        log.info("{}", wishListDto);
+        wishListRepository.save(wishListEntity);
     }
 
-    private WishListDto entityToDto(WishListEntity wishListEntity){
-        var dto = new WishListDto();
-        dto.setIndex(wishListEntity.getId());
-        dto.setTitle(wishListEntity.getTitle());
-        dto.setCategory(wishListEntity.getCategory());
-        dto.setAddress(wishListEntity.getAddress());
-        dto.setRoadAddress(wishListEntity.getRoadAddress());
-        dto.setHomePageLink(wishListEntity.getHomePageLink());
-        dto.setImageLink(wishListEntity.getImageLink());
-        dto.setVisit(wishListEntity.isVisit());
-        dto.setVisitCount(wishListEntity.getVisitCount());
-        dto.setLastVisitDate(wishListEntity.getLastVisitDate());
-        return dto;
+    public List<WishListEntity> findAll() {
+        return wishListRepository.findAll();
     }
 
-    public List<WishListDto> findAll() {
-        return wishListRepository.findAll()
-                .stream()
-                .map(this::entityToDto)
-                .collect(Collectors.toList());
-    }
-
-    public void delete(int id) {
+    public void delete(Integer id) {
         wishListRepository.deleteById(id);
     }
 
-    public void addVisit(int id){
-        var wishItem = wishListRepository.findById(id);
-        if(wishItem.isPresent()){
-            var item = wishItem.get();
-            item.setVisit(true);
-            item.setVisitCount(item.getVisitCount()+1);
-        }
+    public void addVisit(Integer id){
+        WishListEntity wishItem = wishListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found"));
+        wishItem.set(true, wishItem.getVisitCount()+1 );
     }
 }
