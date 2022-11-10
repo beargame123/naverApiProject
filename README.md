@@ -1,1 +1,1 @@
-# naverApiProject
+# Naver 지도를 이용한 여행리스트 사이트!!
